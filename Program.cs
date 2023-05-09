@@ -1,5 +1,5 @@
 ﻿// Hernandez - BSCPE/BSCOE 1-1
-// VoteHub Ph Alpha ver. 
+// VoteHub PH Alpha ver.
 // Methods and arrays are not used, resulting in long lines of code.
 using System;
 
