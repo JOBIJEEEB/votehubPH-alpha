@@ -1,5 +1,10 @@
-﻿// Hernandez - BSCPE/BSCOE 1-1 - OOP
-// VoteHub PH Alpha ver. 2
+﻿/* 
+Hernandez - BSCPE/BSCOE 1-1 - OOP
+VoteHub PH Alpha ver. 2.1
+entry limit: 60
+allowed votes per person: 3 ( 1 per category)
+user limit: 20
+*/
 using System;
 
 namespace VoteHubPH
@@ -8,6 +13,7 @@ namespace VoteHubPH
     {
         static void Main(string[] args)
         {
+            int entryCount = 0;
             string correctAns = "333";
 
             int[] votedFoods = new int[3];
@@ -15,14 +21,24 @@ namespace VoteHubPH
             int[] votedGames = new int[3];
 
             string userInput = IntroMenu();
+            Console.Clear();
 
             while (userInput != "0")
             {
                 string result = userInput == correctAns ? "correct" : "error";
-
                 if (result == "correct")
                 {
+                    if (entryCount >= 60)
+                    {
+                        Console.WriteLine("Maximum number of entries reached.");
+                        Console.WriteLine("Press 0 to exit the menu.");
+                        Console.ReadLine();
+                        Console.Clear();
+                        continue;
+                    }
+
                     string userChoice = MainMenu();
+                    Console.Clear();
                     switch (userChoice)
                     {
                         case "1":
@@ -38,7 +54,7 @@ namespace VoteHubPH
                             break;
 
                         case "4":
-                            CheckCastedVotes(votedFoods, votedFruits, votedGames);
+                            DisplayCastedVotes(votedFoods, votedFruits, votedGames);
                             break;
 
                         case "0":
@@ -56,7 +72,9 @@ namespace VoteHubPH
                     Console.WriteLine("Ilang taon tayo sinakop ng mga Espanyol?");
                     Console.Write("Type only the number of years (ex: 222): ");
                     userInput = Console.ReadLine();
+                    Console.Clear();
                 }
+                entryCount++;
             }
         }
         public static string IntroMenu()
@@ -78,10 +96,6 @@ namespace VoteHubPH
         }
         public static string MainMenu()
         {
-            Console.WriteLine("Please select the number of the topic you want to vote for (1-3)");
-            Console.WriteLine("Enter 4 to display casted votes.");
-            Console.WriteLine("Enter 0 to exit the menu.");
-            Console.WriteLine("");
             Console.WriteLine("|=============================|");
             Console.WriteLine("|   |>> VOTEHUB PH MENU <<|   |");
             Console.WriteLine("|=============================|");
@@ -98,13 +112,18 @@ namespace VoteHubPH
             Console.WriteLine("|  (O_O)(^-^)(^o^)(^>^)(-_-)  |");
             Console.WriteLine("|=============================|");
             Console.WriteLine("");
+            Console.WriteLine("Please select the number of the topic you want to vote for (1-3)");
+            Console.WriteLine("Enter 4 to display casted votes.");
+            Console.WriteLine("Enter 0 to exit the menu.");
             Console.Write("Enter your choice: ");
             string input = Console.ReadLine();
+            Console.Clear();
             return input;
         }
         public static void VoteFood(int[] votedFoods)
         {
             string foodInput = FoodMenu();
+            Console.Clear();
             switch (foodInput)
             {
                 case "1":
@@ -123,10 +142,12 @@ namespace VoteHubPH
                     Console.WriteLine("Invalid Input!");
                     break;
             }
+            
         }
         public static void VoteFruit(int[] votedFruits)
         {
             string fruitInput = FruitMenu();
+            Console.Clear();
             switch (fruitInput)
             {
                 case "1":
@@ -149,6 +170,7 @@ namespace VoteHubPH
         public static void VoteGame(int[] votedGames)
         {
             string gameInput = GameMenu();
+            Console.Clear();
             switch (gameInput)
             {
                 case "1":
@@ -168,27 +190,31 @@ namespace VoteHubPH
                     break;
             }
         }
-        public static void CheckCastedVotes(int[] votedFoods, int[] votedFruits, int[] votedGames)
+        public static string DisplayCastedVotes(int[] votedFoods, int[] votedFruits, int[] votedGames)
         {
-            Console.WriteLine("");
             Console.WriteLine("|=========================================|");
             Console.WriteLine("|          |>>  CASTED VOTES <<|          |");
             Console.WriteLine("|=========================================|");
             Console.WriteLine($"1. FAVORITE FOOD/ DISH                 ");
-            Console.WriteLine($"   Sinigang: {votedFoods[0]} votes     ");
-            Console.WriteLine($"   Adobo: {votedFoods[1]} votes        ");
-            Console.WriteLine($"   Tinola: {votedFoods[2]} votes       ");
+            Console.WriteLine($"   Sinigang: {(votedFoods[0]/20.0)*100} %     ");
+            Console.WriteLine($"   Adobo: {(votedFoods[1]/20.0)*100} %        ");
+            Console.WriteLine($"   Tinola: {(votedFoods[2]/20.0)*100} %       ");
             Console.WriteLine("|=========================================|");
             Console.WriteLine($"2. FAVORITE FRUIT                      ");
-            Console.WriteLine($"   Pakwan: {votedFruits[0]} votes      ");
-            Console.WriteLine($"   Mangga: {votedFruits[1]} votes      ");
-            Console.WriteLine($"   Saging: {votedFruits[2]} votes      ");
+            Console.WriteLine($"   Pakwan: {(votedFruits[0]/20.0)*100} %      ");
+            Console.WriteLine($"   Mangga: {(votedFruits[1]/20.0)*100} %      ");
+            Console.WriteLine($"   Saging: {(votedFruits[2]/20.0)*100} %      ");
             Console.WriteLine("|=========================================|");
             Console.WriteLine($"3. FAVORITE PINOY GAME                 ");
-            Console.WriteLine($"   Patintero: {votedGames[0]} votes    ");
-            Console.WriteLine($"   Tumbang Preso: {votedGames[1]} votes");
-            Console.WriteLine($"   Jackstones: {votedGames[2]} votes   ");
+            Console.WriteLine($"   Patintero: {(votedGames[0]/20.0)*100} %    ");
+            Console.WriteLine($"   Tumbang Preso: {(votedGames[1]/20.0)*100} %");
+            Console.WriteLine($"   Jackstones: {(votedGames[2]/20.0)*100} %   ");
             Console.WriteLine("|=========================================|");
+            Console.Write("Press ENTER to return to the MAIN MENU:");
+            string userInput = Console.ReadLine();
+            Console.Clear();
+            return userInput;
+
         }
         public static string FoodMenu()
         {
